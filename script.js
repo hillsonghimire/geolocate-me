@@ -12,14 +12,17 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 $('.press-me').on('click',function(){
 	mymap.locate({setView:true, maxZoom:15});
 
-
 	mymap.on('locationfound', function(e){
 		console.log(e); 
 		L.marker(e.latlng).addTo(mymap);
-		
-		// Add Location Information to DOM Element usign JQUERY
-        $("#latlng").append("Latitude: "+e.latitude+", Longitude: "+e.longitude); 
-
+		$("#latlng").empty();
+		$("#latlng").append("Latitude: "+e.latitude+", Longitude: "+e.longitude); 
 
 	});
+
+	mymap.on('locationerror', function(e){
+		console.log("Error in loading location");
+	});
+
+
 });
