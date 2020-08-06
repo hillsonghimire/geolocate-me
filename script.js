@@ -13,10 +13,28 @@ $('.press-me').on('click',function(){
 	mymap.locate({setView:true, maxZoom:15});
 
 	mymap.on('locationfound', function(e){
-		console.log(e); 
 		L.marker(e.latlng).addTo(mymap);
-		$("#latlng").empty();
-		$("#latlng").append("Latitude: "+e.latitude+", Longitude: "+e.longitude); 
+		// console.log(e); 
+
+		// $.getJSON(`https://eu1.locationiq.com/v1/reverse.php?key=305a936c6c0f8f&lat=${e.latitude}&lon=${e.longitude}&format=json`,function(data){
+		// 	$("#latlng").append(`<b>Reverse Geocoding with LocationIQ API</b>
+		// 	`)
+		// });
+
+		var settings = {
+			"async": true,
+			"crossDomain": true,
+			"url": `https://us1.locationiq.com/v1/reverse.php?key=305a936c6c0f8f&lat=${e.latitude}&lon=${e.longitude}&format=json`,
+			"method": "GET"
+		  }	
+		  
+		  $.ajax(settings).done(function (response) {
+			$("#latlng").empty()
+			$("#latlng").append("Latitude: "+e.latitude+", Longitude: "+e.longitude+`</br></br>`); 
+			$("#latlng").append(` \n <b>Reverse Geocoding with LocationIQ API</b> </br>
+			 Address: ${response.display_name}`);	
+
+		  });
 
 	});
 
